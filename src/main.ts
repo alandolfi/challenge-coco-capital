@@ -18,8 +18,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor(telemetry));
 
   const config = new DocumentBuilder()
-    .setTitle('Ports and adapters NestJS')
-    .setDescription('Ports and adapters NestJS POC')
+    .setTitle('Challenge cocos capital')
+    .setDescription('Challenge cocos capital with architecture hexagonal')
     .setVersion('1.0')
     .addTag('user')
     .build();
