@@ -1,0 +1,321 @@
+{
+  "info": {
+    "name": "Cocos Capital API",
+    "description": "Collection para el challenge de Cocos Capital. Base URL: http://localhost:3000",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Instruments",
+      "item": [
+        {
+          "name": "Buscar todos los instrumentos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/instruments",
+              "host": ["{{baseUrl}}"],
+              "path": ["instruments"]
+            },
+            "description": "Devuelve todos los instrumentos con lastPrice y dailyReturn"
+          }
+        },
+        {
+          "name": "Buscar por ticker (GGAL)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/instruments?search=GGAL",
+              "host": ["{{baseUrl}}"],
+              "path": ["instruments"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "GGAL"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar por nombre (Galicia)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/instruments?search=Galicia",
+              "host": ["{{baseUrl}}"],
+              "path": ["instruments"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Galicia"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Portfolio",
+      "item": [
+        {
+          "name": "Ver portfolio del usuario 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/portfolio/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["portfolio", "1"]
+            },
+            "description": "Devuelve saldo total, pesos disponibles y posiciones con rendimiento diario"
+          }
+        },
+        {
+          "name": "Ver portfolio del usuario 2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/portfolio/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["portfolio", "2"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "BUY MARKET — compra por cantidad",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 34,\n  \"side\": \"BUY\",\n  \"type\": \"MARKET\",\n  \"size\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Compra 10 acciones de GGAL (id=34) a precio de mercado. Status resultante: FILLED o REJECTED si no hay saldo."
+          }
+        },
+        {
+          "name": "BUY MARKET — compra por monto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 34,\n  \"side\": \"BUY\",\n  \"type\": \"MARKET\",\n  \"amount\": 50000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Compra acciones de GGAL por $50.000 pesos. El sistema calcula cuántas entran al precio de mercado."
+          }
+        },
+        {
+          "name": "BUY LIMIT — orden limitada",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 34,\n  \"side\": \"BUY\",\n  \"type\": \"LIMIT\",\n  \"size\": 5,\n  \"price\": 850.0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Orden de compra limitada: 5 acciones de GGAL a $850. Queda en status NEW hasta ejecutarse."
+          }
+        },
+        {
+          "name": "SELL MARKET — venta por cantidad",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 34,\n  \"side\": \"SELL\",\n  \"type\": \"MARKET\",\n  \"size\": 5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Vende 5 acciones de GGAL a precio de mercado. REJECTED si no tiene esa cantidad en posición."
+          }
+        },
+        {
+          "name": "SELL LIMIT — venta limitada",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 34,\n  \"side\": \"SELL\",\n  \"type\": \"LIMIT\",\n  \"size\": 5,\n  \"price\": 950.0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Orden de venta limitada: 5 acciones de GGAL a $950. Queda en status NEW."
+          }
+        },
+        {
+          "name": "CASH_IN — depositar pesos",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 66,\n  \"side\": \"CASH_IN\",\n  \"type\": \"MARKET\",\n  \"size\": 100000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Deposita $100.000 pesos. instrumentId=66 es ARS (MONEDA). Status: FILLED."
+          }
+        },
+        {
+          "name": "CASH_OUT — retirar pesos",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 66,\n  \"side\": \"CASH_OUT\",\n  \"type\": \"MARKET\",\n  \"size\": 50000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Retira $50.000 pesos. REJECTED si el saldo disponible es insuficiente."
+          }
+        },
+        {
+          "name": "BUY MARKET — REJECTED (saldo insuficiente)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 34,\n  \"side\": \"BUY\",\n  \"type\": \"MARKET\",\n  \"size\": 999999\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Intenta comprar 999.999 acciones — el monto supera el saldo disponible. Status esperado: REJECTED."
+          }
+        }
+      ]
+    }
+  ]
+}
